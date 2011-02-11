@@ -16,11 +16,17 @@ module Rbcgen
       $method = ARGV[2]
       $argnames = ARGV.drop(3)
 
+      default_return = 'Qnil'
+
+      if $method == "initialize"
+        default_return = 'self'
+      end
+
       $funcname = "#{$prefix}_#{$method}"
 
       $cargs = $argnames.map{|arg| ", VALUE #{arg}"}.join('')
       if @@funbody.nil?
-        body = "    // TODO: code here\n    return Qnil;"
+        body = "    // TODO: code here\n    return #{default_return};"
       else
         body = @@funbody
       end
