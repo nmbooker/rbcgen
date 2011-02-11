@@ -4,6 +4,7 @@ USAGE="Usage: #{File.basename($0)} [options] clsobj prefix method [arg ...]"
 
 module Rbcgen
   class CLI
+    @@funbody = "    // TODO: code here"
     def self.do_genmethod
       if ARGV.count < 3 then
         $stderr.puts USAGE
@@ -23,7 +24,7 @@ module Rbcgen
 //    rb_define_method(#{$clsobj}, "#{$method}", #{$funcname}, #{$argnames.count});
 static VALUE #{$funcname}(VALUE self#{$cargs})
 {
-    // code here
+#{@@funbody}
 }
 
 END
@@ -54,6 +55,9 @@ END
                 "Default: ~") { |arg| options[:path] = arg }
         opts.on("-h", "--help",
                 "Show this help message.") { stdout.puts opts; exit }
+        opts.on("-b", "--body", "Include C function body from stdin.") {
+                @@funbody = $stdin.read.chomp
+                }
         opts.parse!(arguments)
 
         if mandatory_options && mandatory_options.find { |option| options[option.to_sym].nil? }
