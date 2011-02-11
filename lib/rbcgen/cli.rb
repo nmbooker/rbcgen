@@ -11,28 +11,28 @@ module Rbcgen
         exit 1
       end
 
-      $clsobj = ARGV[0]
-      $prefix = ARGV[1]
-      $method = ARGV[2]
-      $argnames = ARGV.drop(3)
+      clsobj = ARGV[0]
+      prefix = ARGV[1]
+      method = ARGV[2]
+      argnames = ARGV.drop(3)
 
       default_return = 'Qnil'
 
-      if $method == "initialize"
+      if method == "initialize"
         default_return = 'self'
       end
 
-      $funcname = "#{$prefix}_#{$method}"
+      funcname = "#{prefix}_#{method}"
 
-      $cargs = $argnames.map{|arg| ", VALUE #{arg}"}.join('')
+      cargs = argnames.map{|arg| ", VALUE #{arg}"}.join('')
       if @@funbody.nil?
         body = "    // TODO: code here\n    return #{default_return};"
       else
         body = @@funbody
       end
       puts <<END
-//    rb_define_method(#{$clsobj}, "#{$method}", #{$funcname}, #{$argnames.count});
-static VALUE #{$funcname}(VALUE self#{$cargs})
+//    rb_define_method(#{clsobj}, "#{method}", #{funcname}, #{argnames.count});
+static VALUE #{funcname}(VALUE self#{cargs})
 {
 #{body}
 }
