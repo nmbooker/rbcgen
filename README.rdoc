@@ -1,14 +1,14 @@
 = rbcgen
 
-* http://github.com/#{github_username}/#{project_name}
+* http://github.com/nmbooker/rbcgen
 
 == DESCRIPTION:
 
-FIX (describe your package)
+Helper scripts for writing Ruby C extensions for MRI.
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+* Tested only under MRI version 1.8.7 so far.
 
 == SYNOPSIS:
 
