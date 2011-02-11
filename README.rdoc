@@ -1,6 +1,7 @@
 = rbcgen
 
-* http://github.com/nmbooker/rbcgen
+* URL: http://github.com/nmbooker/rbcgen
+* Author: Nick Booker <NMBooker@googlemail.com>
 
 == DESCRIPTION:
 
