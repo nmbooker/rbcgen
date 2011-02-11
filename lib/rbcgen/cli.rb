@@ -43,10 +43,8 @@ END
 
     def self.execute(stdout, arguments=[])
 
-      # NOTE: the option -p/--path= is given as an example, and should be replaced in your application.
-
       options = {
-        :path     => '~'
+        :funbody => nil
       }
       mandatory_options = %w(  )
 
@@ -59,14 +57,10 @@ END
           Options are:
         BANNER
         opts.separator ""
-        opts.on("-p", "--path PATH", String,
-                "This is a sample message.",
-                "For multiple lines, add more strings.",
-                "Default: ~") { |arg| options[:path] = arg }
         opts.on("-h", "--help",
                 "Show this help message.") { stdout.puts opts; exit }
         opts.on("-b", "--body", "Include C function body from stdin.") {
-                @@funbody = $stdin.read.chomp
+                options[:funbody] = $stdin.read.chomp
                 }
         opts.parse!(arguments)
 
@@ -75,7 +69,7 @@ END
         end
       end
 
-      path = options[:path]
+      @@funbody = options[:funbody]
 
       # do stuff
       do_genmethod
