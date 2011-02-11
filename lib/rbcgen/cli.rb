@@ -71,6 +71,7 @@ END
 
           subcommands are:
             newmethod -- Generate a new method stub and its registration call
+            nm        -- Alias for newmethod
 
           Global options are:
         BANNER
@@ -86,7 +87,7 @@ END
 
       # do stuff
       subcommand = arguments.shift
-      if subcommand == "newmethod"
+      if ["newmethod", "nm"].include?(subcommand)
         do_newmethod(stdout, arguments)
       else
         stdout.puts "Invalid subcommand.  Use -h to get list."
