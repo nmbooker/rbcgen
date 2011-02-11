@@ -41,7 +41,7 @@ END
 
       parser = OptionParser.new do |opts|
         opts.banner = <<-BANNER.gsub(/^          /,'')
-          This application generates C code stubs for Ruby methods.
+          Generate a method function and its registration call in a Ruby C extension.
 
           #{USAGE}
 
