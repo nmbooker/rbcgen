@@ -1,11 +1,28 @@
 require 'optparse'
 
-USAGE="Usage: #{File.basename($0)} [options] clsobj prefix method [arg ...]"
+USAGE="Usage: #{File.basename($0)} newmethod [options] clsobj prefix method [arg ...]"
 
 module Rbcgen
   class CLI
-    @@funbody = nil
-    def self.do_genmethod
+    def self.do_newmethod(stdout, arguments)
+      options = {:funbody => nil}
+      parser = OptionParser.new do |opts|
+        opts.banner = <<-BANNER.gsub(/^          /,'')
+          Generate a method function and its registration call in a Ruby C extension.
+
+          #{USAGE}
+
+          Options are:
+        BANNER
+        opts.separator ""
+        opts.on("-h", "--help",
+                "Show this help message.") { stdout.puts opts; exit }
+        opts.on("-b", "--body", "Include C function body from stdin.") {
+                options[:funbody] = $stdin.read.chomp
+                }
+        opts.parse!(arguments)
+      end
+
       if ARGV.count < 3 then
         $stderr.puts USAGE
         exit 1
@@ -25,10 +42,10 @@ module Rbcgen
       funcname = "#{prefix}_#{method}"
 
       cargs = argnames.map{|arg| ", VALUE #{arg}"}.join('')
-      if @@funbody.nil?
+      if options[:funbody].nil?
         body = "    // TODO: code here\n    return #{default_return};"
       else
-        body = @@funbody
+        body = options[:funbody]
       end
       puts <<END
 //    rb_define_method(#{clsobj}, "#{method}", #{funcname}, #{argnames.count});
@@ -50,29 +67,32 @@ END
 
       parser = OptionParser.new do |opts|
         opts.banner = <<-BANNER.gsub(/^          /,'')
-          Generate a method function and its registration call in a Ruby C extension.
+          Usage: #{File.basename($0)} [globaloptions] subcommand [-h|args...]"
 
-          #{USAGE}
+          subcommands are:
+            newmethod -- Generate a new method stub an its registration call
 
-          Options are:
+          Global options are:
         BANNER
         opts.separator ""
         opts.on("-h", "--help",
                 "Show this help message.") { stdout.puts opts; exit }
-        opts.on("-b", "--body", "Include C function body from stdin.") {
-                options[:funbody] = $stdin.read.chomp
-                }
-        opts.parse!(arguments)
+        opts.order!(arguments)
 
         if mandatory_options && mandatory_options.find { |option| options[option.to_sym].nil? }
           stdout.puts opts; exit
         end
       end
 
-      @@funbody = options[:funbody]
-
       # do stuff
-      do_genmethod
+      subcommand = arguments.shift
+      if subcommand == "newmethod"
+        do_newmethod(stdout, arguments)
+      else
+        stdout.puts "Invalid subcommand.  Use -h to get list."
+        exit 1
+      end
+
     end
   end
 end
