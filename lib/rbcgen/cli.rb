@@ -4,7 +4,7 @@ USAGE="Usage: #{File.basename($0)} [options] clsobj prefix method [arg ...]"
 
 module Rbcgen
   class CLI
-    @@funbody = "    // TODO: code here"
+    @@funbody = nil
     def self.do_genmethod
       if ARGV.count < 3 then
         $stderr.puts USAGE
@@ -19,12 +19,16 @@ module Rbcgen
       $funcname = "#{$prefix}_#{$method}"
 
       $cargs = $argnames.map{|arg| ", VALUE #{arg}"}.join('')
-
+      if @@funbody.nil?
+        body = "    // TODO: code here\n    return Qnil;"
+      else
+        body = @@funbody
+      end
       puts <<END
 //    rb_define_method(#{$clsobj}, "#{$method}", #{$funcname}, #{$argnames.count});
 static VALUE #{$funcname}(VALUE self#{$cargs})
 {
-#{@@funbody}
+#{body}
 }
 
 END
