@@ -1,0 +1,12 @@
+History.txt
+Manifest.txt
+PostInstall.txt
+README.rdoc
+Rakefile
+lib/rbcgen.rb
+rbc-genmethod
+script/console
+script/destroy
+script/generate
+test/test_helper.rb
+test/test_rbcgen.rb
