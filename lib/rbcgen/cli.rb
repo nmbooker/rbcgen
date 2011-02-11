@@ -70,7 +70,7 @@ END
           Usage: #{File.basename($0)} [globaloptions] subcommand [-h|args...]"
 
           subcommands are:
-            newmethod -- Generate a new method stub an its registration call
+            newmethod -- Generate a new method stub and its registration call
 
           Global options are:
         BANNER
