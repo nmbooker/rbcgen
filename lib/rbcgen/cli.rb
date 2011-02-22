@@ -58,6 +58,9 @@ END
       
     end
 
+    def self.do_newclass(stdout, arguments)
+    end
+
     def self.execute(stdout, arguments=[])
 
       options = {
@@ -72,6 +75,8 @@ END
           subcommands are:
             newmethod -- Generate a new method stub and its registration call
             nm        -- Alias for newmethod
+            newclass  -- Generate C files for a new class.
+            nc        -- Alias for newclass.
 
           Global options are:
         BANNER
@@ -89,6 +94,8 @@ END
       subcommand = arguments.shift
       if ["newmethod", "nm"].include?(subcommand)
         do_newmethod(stdout, arguments)
+      elsif ["newclass", "nc"].include?(subcommand)
+        do_newclass(stdout, arguments)
       else
         stdout.puts "Invalid subcommand.  Use -h to get list."
         exit 1
