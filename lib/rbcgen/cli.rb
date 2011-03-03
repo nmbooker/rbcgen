@@ -1,6 +1,7 @@
 require 'optparse'
 
 USAGE="Usage: #{File.basename($0)} newmethod [options] clsobj prefix method [arg ...]"
+NEWCLASS_USAGE="Usage: #{File.basename($0)} newclass [options] ClassName"
 
 module Rbcgen
   class CLI
@@ -64,7 +65,7 @@ END
         opts.banner = <<-BANNER.gsub(/^          /,'')
           Generate a class file, its initialisation function, and its header file.
 
-          #{USAGE}
+          #{NEWCLASS_USAGE}
 
           Options are:
         BANNER
